@@ -1,32 +1,32 @@
-import React,{useState} from 'react'
-
+import React,{useState,useEffect} from 'react'
+import Axios from 'axios'
+import useCourse from '../CustomHooks/useCourse'
+ 
 const Course =({match})=>{
 
-    const [state, setstate] = useState({            
-            id: 2,
-            title: "HTML desde cero",
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTZWxq_DqhMbwm5yN1F3G3O7AU0r37vyj6MZOAGxj-7Gxq3Rr0R",
-            price: "20",
-            professor: "Fernando Mora"  
-    })
+    const [comment,setComment] = useState("Sin comentaros")
+    const course = useCourse(match.params.id)
     
-    const changeTitle = (text)=>{
-        setstate({
-            ...state,
-            title:text
-        })
+    const changeComment=e=>{
+        setComment(e.target.value)
     }
     return (
         <div className="ed-grid m-grid-3">
         {
-            state 
+            course 
                 ? (
-                    <>         
-                        <h1 className="m-cols-3">{state.title}</h1>
-                        <img className="m-cols-1" src={state.image} alt={state.title}></img>
-                        <p className="m-cols-2">Descripcion</p>
-                        <button onClick={changeTitle.bind(this,"Go desde Cero")}>Cambiar</button>
-                    </>
+                    <div className="ed-grid"> 
+                        <div className="l-block">        
+                            <h1 className="m-cols-3">{course.title}</h1>
+                            <img className="m-cols-1" src={course.image} alt={course.title}></img>
+                            <p className="m-cols-2">Descripcion</p>
+                        </div>
+                        <div>
+                            <h2>Escribe tu comenario</h2>
+                            <input type="text" placeholder="Escribe..." onChange={changeComment.bind(this)} />
+                            <p>{comment}</p>
+                        </div>
+                    </div>
                 ) :
                     <h1>El curso no existe</h1>  
         }
